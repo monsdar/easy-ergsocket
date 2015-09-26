@@ -1,4 +1,8 @@
 
+//This include needs to be first, else errors about redefinitions in winsock etc appear... 
+//As good as Zmq is... The C++ implementation could use some love :/
+#include <zhelpers.hpp>
+
 #include <iostream>
 #include <string>
 #include <thread>
@@ -6,8 +10,6 @@
 #include <ErgNet.h>
 #include <Erg.h>
 #include <CIIHeaders.h>
-
-//#include <zhelpers.hpp>
 
 #include "Erg.pb.h"
 
@@ -19,9 +21,15 @@ void onErgError( int errorCode, char *note, char *errorName, char *errorText)
 
 int main()
 {
+    std::cout << "Initing network..." << std::endl;
+    std::string pubAddress = "tcp://*:5556";
+    zmq::context_t context(1);
+    zmq::socket_t publisher(context, ZMQ_PUB);
+    publisher.bind(pubAddress.c_str());
+    std::cout << "\tNow publishing via " << pubAddress << std::endl;
+
     ErgNet::setErrorCallback( onErgError );
     ErgNet net = ErgNet();
-
     std::cout << "We're using the following SDK version:" << std::endl;
     std::cout << "\tDDI: " << tkcmdsetDDI_get_dll_version() << std::endl;
     std::cout << "\tUSB: " << tkcmdsetUSB_get_dll_version() << std::endl;
@@ -62,7 +70,8 @@ int main()
 
         std::string ergDataStr;
         ergData.SerializeToString(&ergDataStr);
-        std::cout << ergDataStr << std::endl;
+        s_sendmore(publisher, "EasyErgsocket");
+        s_send(publisher, ergDataStr);
 
         std::this_thread::yield();
     }
