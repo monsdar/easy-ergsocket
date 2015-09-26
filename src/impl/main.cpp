@@ -55,7 +55,7 @@ int main()
         std::cout << ".";
     }
 
-    std::cout << "Rowing has begun, starting to publish data..." << std::endl;
+    std::cout << std::endl << "Rowing has begun, starting to publish data..." << std::endl;
 
     while (1)
     {
