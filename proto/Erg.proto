@@ -1,0 +1,13 @@
+
+package EasyErgsocket;
+
+message Erg
+{
+    optional uint32 displayedTime = 1;
+    optional uint32 displayedMeters = 2;
+    optional uint32 cadence = 3;
+    optional uint32 paceInSecs = 4;
+    optional uint32 calories = 5;
+    optional uint32 power = 6;
+    optional uint32 heartrate = 7;
+}

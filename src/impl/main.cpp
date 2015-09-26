@@ -1,10 +1,15 @@
 
 #include <iostream>
+#include <string>
 #include <thread>
 
-#include "ErgNet.h"
-#include "Erg.h"
-#include "CIIHeaders.h"
+#include <ErgNet.h>
+#include <Erg.h>
+#include <CIIHeaders.h>
+
+//#include <zhelpers.hpp>
+
+#include "Erg.pb.h"
 
 void onErgError( int errorCode, char *note, char *errorName, char *errorText)
 {
@@ -35,9 +40,31 @@ int main()
     std::cout << "\tFirmware: " << erg.getFirmwareVersion() << std::endl;
     std::cout << "\tWorkout type: " << erg.getWorkoutType() << " :: " << erg.getWorkoutTypeText() << std::endl;
 
+    std::cout << "Simply start Rowing..." << std::endl;
+    while (!erg.hasStartedRowing())
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << ".";
+    }
+
+    std::cout << "Rowing has begun, starting to publish data..." << std::endl;
+
     while (1)
     {
-        std::cout << erg.hasStartedRowing() << " - " << erg.getDisplayedMeters() << " - " << erg.getStrokeStateText() << " - " << erg.getDisplayedTime() << std::endl;
+        EasyErgsocket::Erg ergData;
+        ergData.set_displayedtime(erg.getDisplayedTime());
+        ergData.set_displayedmeters(erg.getDisplayedMeters());
+        ergData.set_cadence(erg.getCadence());
+        ergData.set_paceinsecs(erg.getPaceInSecondsPer500());
+        ergData.set_calories(erg.getAccumulatedCalories());
+        ergData.set_power(erg.getPower());
+        ergData.set_heartrate(erg.getHeartRate());
+
+        std::string ergDataStr;
+        ergData.SerializeToString(&ergDataStr);
+        std::cout << ergDataStr << std::endl;
+
+        std::this_thread::yield();
     }
 
     return 0;
