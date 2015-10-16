@@ -8,7 +8,7 @@ context = zmq.Context()
 socket = context.socket(zmq.SUB)
 
 print("Connecting to Publisher")
-socket.connect("tcp://as1331:5556")
+socket.connect("tcp://localhost:5556")
 
 #Subscribe to the right envelope
 # Ascii bytes to unicode str is needed here

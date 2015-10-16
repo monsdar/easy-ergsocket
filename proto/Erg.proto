@@ -3,8 +3,8 @@ package EasyErgsocket;
 
 message Erg
 {
-    optional uint32 displayedTime = 1;
-    optional uint32 displayedMeters = 2;
+    optional double displayedTime = 1;
+    optional double displayedMeters = 2;
     optional uint32 cadence = 3;
     optional uint32 paceInSecs = 4;
     optional uint32 calories = 5;

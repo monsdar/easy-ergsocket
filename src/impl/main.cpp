@@ -3,6 +3,7 @@
 //As good as Zmq is... The C++ implementation could use some love :/
 #include <zhelpers.hpp>
 
+#include <chrono>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -49,30 +50,56 @@ int main()
     std::cout << "\tWorkout type: " << erg.getWorkoutType() << " :: " << erg.getWorkoutTypeText() << std::endl;
 
     std::cout << "Simply start Rowing..." << std::endl;
-    while (!erg.hasStartedRowing())
+    /*while (!erg.hasStartedRowing())
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         std::cout << ".";
-    }
+    }*/
 
     std::cout << std::endl << "Rowing has begun, starting to publish data..." << std::endl;
 
+    //some measurements to see how well this is running...
+    std::chrono::time_point<std::chrono::system_clock> cycleStart = std::chrono::system_clock::now();
+    std::chrono::time_point<std::chrono::system_clock> cycleEnd;
+    std::vector< std::chrono::duration<double> > durations;
+    unsigned int timingOutput = 100;
+
+    EasyErgsocket::Erg ergData;
+    //TODO: Fill in the values for the following data at least every couple frames instead of putting dummy values in it
+    ergData.set_cadence(0);
+    ergData.set_paceinsecs(0);
+    ergData.set_calories(0);
+    ergData.set_power(0);
+    ergData.set_heartrate(0);
     while (1)
     {
-        EasyErgsocket::Erg ergData;
-        ergData.set_displayedtime(erg.getDisplayedTime());
         ergData.set_displayedmeters(erg.getDisplayedMeters());
-        ergData.set_cadence(erg.getCadence());
-        ergData.set_paceinsecs(erg.getPaceInSecondsPer500());
-        ergData.set_calories(erg.getAccumulatedCalories());
-        ergData.set_power(erg.getPower());
-        ergData.set_heartrate(erg.getHeartRate());
-
+        ergData.set_displayedtime(erg.getDisplayedTime());
+        
         std::string ergDataStr;
         ergData.SerializeToString(&ergDataStr);
         s_sendmore(publisher, "EasyErgsocket");
         s_send(publisher, ergDataStr);
+        
+        //some measurements to see how well this is running...
+        cycleEnd = std::chrono::system_clock::now();
+        durations.push_back(cycleEnd - cycleStart);
 
+        if (durations.size() == timingOutput)
+        {
+            double sumDuration = 0.0;
+            auto durIter = durations.begin();
+            for (; durIter != durations.end(); ++durIter)
+            {
+                sumDuration += (durIter->count() * 1000.0); //calc in msecs
+            }
+            std::cout << "Avg Frame time (" << timingOutput << " frames): " << sumDuration / timingOutput << " msecs" << std::endl;
+            durations.clear();
+        }
+        cycleStart = std::chrono::system_clock::now(); //measure for the next cycle
+
+        //yield the thread to allow other processes to access the CPU
+        //if we do not do this we would hog the CPU 100%, which is not necessary
         std::this_thread::yield();
     }
 

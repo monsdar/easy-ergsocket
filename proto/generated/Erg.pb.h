@@ -90,19 +90,19 @@ class Erg : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional uint32 displayedTime = 1;
+  // optional double displayedTime = 1;
   inline bool has_displayedtime() const;
   inline void clear_displayedtime();
   static const int kDisplayedTimeFieldNumber = 1;
-  inline ::google::protobuf::uint32 displayedtime() const;
-  inline void set_displayedtime(::google::protobuf::uint32 value);
+  inline double displayedtime() const;
+  inline void set_displayedtime(double value);
 
-  // optional uint32 displayedMeters = 2;
+  // optional double displayedMeters = 2;
   inline bool has_displayedmeters() const;
   inline void clear_displayedmeters();
   static const int kDisplayedMetersFieldNumber = 2;
-  inline ::google::protobuf::uint32 displayedmeters() const;
-  inline void set_displayedmeters(::google::protobuf::uint32 value);
+  inline double displayedmeters() const;
+  inline void set_displayedmeters(double value);
 
   // optional uint32 cadence = 3;
   inline bool has_cadence() const;
@@ -160,8 +160,8 @@ class Erg : public ::google::protobuf::Message {
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::uint32 displayedtime_;
-  ::google::protobuf::uint32 displayedmeters_;
+  double displayedtime_;
+  double displayedmeters_;
   ::google::protobuf::uint32 cadence_;
   ::google::protobuf::uint32 paceinsecs_;
   ::google::protobuf::uint32 calories_;
@@ -181,7 +181,7 @@ class Erg : public ::google::protobuf::Message {
 
 // Erg
 
-// optional uint32 displayedTime = 1;
+// optional double displayedTime = 1;
 inline bool Erg::has_displayedtime() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -192,20 +192,20 @@ inline void Erg::clear_has_displayedtime() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void Erg::clear_displayedtime() {
-  displayedtime_ = 0u;
+  displayedtime_ = 0;
   clear_has_displayedtime();
 }
-inline ::google::protobuf::uint32 Erg::displayedtime() const {
+inline double Erg::displayedtime() const {
   // @@protoc_insertion_point(field_get:EasyErgsocket.Erg.displayedTime)
   return displayedtime_;
 }
-inline void Erg::set_displayedtime(::google::protobuf::uint32 value) {
+inline void Erg::set_displayedtime(double value) {
   set_has_displayedtime();
   displayedtime_ = value;
   // @@protoc_insertion_point(field_set:EasyErgsocket.Erg.displayedTime)
 }
 
-// optional uint32 displayedMeters = 2;
+// optional double displayedMeters = 2;
 inline bool Erg::has_displayedmeters() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -216,14 +216,14 @@ inline void Erg::clear_has_displayedmeters() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void Erg::clear_displayedmeters() {
-  displayedmeters_ = 0u;
+  displayedmeters_ = 0;
   clear_has_displayedmeters();
 }
-inline ::google::protobuf::uint32 Erg::displayedmeters() const {
+inline double Erg::displayedmeters() const {
   // @@protoc_insertion_point(field_get:EasyErgsocket.Erg.displayedMeters)
   return displayedmeters_;
 }
-inline void Erg::set_displayedmeters(::google::protobuf::uint32 value) {
+inline void Erg::set_displayedmeters(double value) {
   set_has_displayedmeters();
   displayedmeters_ = value;
   // @@protoc_insertion_point(field_set:EasyErgsocket.Erg.displayedMeters)

@@ -85,8 +85,8 @@ void protobuf_AddDesc_Erg_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\tErg.proto\022\rEasyErgsocket\"\216\001\n\003Erg\022\025\n\rdi"
-    "splayedTime\030\001 \001(\r\022\027\n\017displayedMeters\030\002 \001"
-    "(\r\022\017\n\007cadence\030\003 \001(\r\022\022\n\npaceInSecs\030\004 \001(\r\022"
+    "splayedTime\030\001 \001(\001\022\027\n\017displayedMeters\030\002 \001"
+    "(\001\022\017\n\007cadence\030\003 \001(\r\022\022\n\npaceInSecs\030\004 \001(\r\022"
     "\020\n\010calories\030\005 \001(\r\022\r\n\005power\030\006 \001(\r\022\021\n\thear"
     "trate\030\007 \001(\r", 171);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
@@ -133,8 +133,8 @@ Erg::Erg(const Erg& from)
 
 void Erg::SharedCtor() {
   _cached_size_ = 0;
-  displayedtime_ = 0u;
-  displayedmeters_ = 0u;
+  displayedtime_ = 0;
+  displayedmeters_ = 0;
   cadence_ = 0u;
   paceinsecs_ = 0u;
   calories_ = 0u;
@@ -206,26 +206,26 @@ bool Erg::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional uint32 displayedTime = 1;
+      // optional double displayedTime = 1;
       case 1: {
-        if (tag == 8) {
+        if (tag == 9) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &displayedtime_)));
           set_has_displayedtime();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_displayedMeters;
+        if (input->ExpectTag(17)) goto parse_displayedMeters;
         break;
       }
 
-      // optional uint32 displayedMeters = 2;
+      // optional double displayedMeters = 2;
       case 2: {
-        if (tag == 16) {
+        if (tag == 17) {
          parse_displayedMeters:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &displayedmeters_)));
           set_has_displayedmeters();
         } else {
@@ -335,14 +335,14 @@ failure:
 void Erg::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:EasyErgsocket.Erg)
-  // optional uint32 displayedTime = 1;
+  // optional double displayedTime = 1;
   if (has_displayedtime()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->displayedtime(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->displayedtime(), output);
   }
 
-  // optional uint32 displayedMeters = 2;
+  // optional double displayedMeters = 2;
   if (has_displayedmeters()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->displayedmeters(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->displayedmeters(), output);
   }
 
   // optional uint32 cadence = 3;
@@ -380,14 +380,14 @@ void Erg::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Erg::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:EasyErgsocket.Erg)
-  // optional uint32 displayedTime = 1;
+  // optional double displayedTime = 1;
   if (has_displayedtime()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->displayedtime(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->displayedtime(), target);
   }
 
-  // optional uint32 displayedMeters = 2;
+  // optional double displayedMeters = 2;
   if (has_displayedmeters()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->displayedmeters(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->displayedmeters(), target);
   }
 
   // optional uint32 cadence = 3;
@@ -427,18 +427,14 @@ int Erg::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional uint32 displayedTime = 1;
+    // optional double displayedTime = 1;
     if (has_displayedtime()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->displayedtime());
+      total_size += 1 + 8;
     }
 
-    // optional uint32 displayedMeters = 2;
+    // optional double displayedMeters = 2;
     if (has_displayedmeters()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->displayedmeters());
+      total_size += 1 + 8;
     }
 
     // optional uint32 cadence = 3;
